@@ -1,0 +1,112 @@
+---
+title: "Unveiling the Crystal Ball of Cardiovascular Health: A Machine Learning Approach to Predicting and Preventing Coronary Artery Disease"
+output:
+  html_document:
+    toc: true
+    toc_float: true 
+    toc_depth: 3
+    code_folding: hide 
+    theme: journal 
+    highlight : tango 
+author: "Khrystyna Khmilovska, Meriem Ben Mustapha"
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# **1.Introduction**
+
+::: {style="text-align: justify"}
+### **1.1 Our data** 
+
+Cardiovascular disease (CVD) is a collective term that covers various medical conditions affecting the heart and blood vessels, and it continues to be the leading cause of death in the United States. According to statistics from 2020, CVD accounted for 928,741 deaths in the country.
+
+
+We have decided to focus our study on a type of heart disease called "Coronary Artery Disease"(CAD). The data set regroups several key factors that contribute to the development and progression of this disease, such as gender, age, smoking status, cholesterol levels, blood pressure, diabetes, and other medical conditions. 
+
+The data domain is likely a medical area, more precisely cardiology, and cardiovascular health, as CAD is a significant medical issue affecting a large population in the USA. This data could be used by researchers, clinicians, and public health officials to understand better the risk factors associated with CAD and to develop effective prevention and treatment strategies to improve patient outcomes.
+
+This data was found on a data collection website called "Kaggle," and it was collected by an engineer who has worked with multiple organizations across various business problems. However, we do not have any further information about the historical use of the data. 
+
+### **1.2 Our objective** 
+
+The objective of our project is to develop a consistent and accurate machine learning model that can be applied to the important area of medicine, specifically to predict the appearance of heart disease in patients based on various factors, such as gender, age, education, and medical history. The aim is to create a model that can help doctors and healthcare professionals in their efforts to prevent heart disease by identifying patients who are at high risk and intervening with appropriate measures. 
+
+By utilizing this model, people working in the medical area may be able to take a more proactive and preventative approach to treat heart disease, potentially improving patient outcomes and reducing healthcare costs associated with treating the condition.
+:::
+
+
+# **2. Data Description**
+
+### **2.1 The Features**
+
+::: {style="text-align: justify"}
+-   `gender` : gender \| **Categorical/Binary**
+
+-   `age` : age \| **Continuous**
+
+-   `education` : level of education \| **Ordinal**
+
+-   `currentSmoker` : 0 = nonsmoker; 1 = smoker \| **Categorical/Binary**
+
+-   `cigsPerDay` : how many cigarettes person smokes per day \| **Continuous**
+
+-   `BPMeds` : 0 = person is not on Blood Pressure medications; 1 = person is on Blood Pressure medications | **Categorical/Binary**
+
+-   `prevalentStroke` : 0 = stroke is not prevalent in family history; 1 = stroke is prevalent in family history | **Categorical/Binary**
+
+-   `prevalentHyp` : 0 = hypertension is not prevalent in family history; 1 = hypertension is prevalent in family history | **Categorical/Binary**
+
+-   `diabetes` : 0 = no; 1 = yes \| **Categorical/Binary**
+
+-   `totChol` : total cholesterol (mg/dL) \| **Continuous**
+
+-   `sysBP` : systolic blood pressure (mmHg) | **Continuous**
+
+-   `diaBP` : diastolic blood pressure (mmHg) | **Continuous**
+
+-   `BMI` : Body Mass Index \| **Continuous**
+
+-   `heartRate` : heart rate (beats per minute) \| **Continuous**
+
+-   `glucose` : total glucose mg/dL \| **Continuous**
+
+-   `Heart_ stroke` : 0 = person obtained coronary heart disease; 1 = person has not obtained a  coronary heart disease \| **Categorical/Binary**
+
+source: <https://www.kaggle.com/datasets/mirzahasnine/heart-disease-dataset>
+:::
+
+### **2.2 The instances**
+
+```{r PRRI_import, echo = FALSE, message = FALSE, warning= FALSE}
+library(dplyr)
+library(pander)
+library(DT)
+library(skimr)
+library(here)
+
+
+#import dataset 
+data <- read.csv(here::here("data/heart_disease.csv"))
+
+#Data Overview
+datatable(data)
+
+#Summary of the data
+pander(summary(data))
+
+#Skim summary of data
+skim(data)
+```
+### **2.3 Data Modification**
+:::{style="text-align: justify"}
+Variables `Gender`,  `prevalentStroke`, and `Heart._stroke` will be transformed into numeric dummy variables.
+
+Variable `education` will be transformed into Liker scale.
+
+Variable `age` will be split into categories and treated as ordinal. As a result, transformed into Liker scale.
+
+Variables `cigsPerDay`, `totChol`, `sysBP`, `diaBP`, `BMI`, `heartRate`, and `glucose` should be normalized to one scale.
+:::
